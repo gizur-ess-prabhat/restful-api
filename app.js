@@ -1,7 +1,7 @@
 
 //------------------------------
 //
-// 2013-12-10, Prabhat Khera
+// 2013-12-10, Prabhat Khera <prabhat.khera@gmail.com>
 //
 // Copyright Prabhat Khera
 //
@@ -68,10 +68,10 @@ app.use(express.methodOverride());
 
 app.use(app.router);
 
-//app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // Authenticator
-//var auth=app.use(express.basicAuth('testUser', 'testPass'));
+// var auth=app.use(express.basicAuth('testUser', 'testPass'));
 
 app.use(function(err, req, res, next) {
     // whatever you want here, feel free to populate

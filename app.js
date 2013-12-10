@@ -62,10 +62,14 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser('portalPraPra'));
-app.use(express.session({secret: 'itsPortal'}));
+
+//app.use(express.cookieParser('portalPraPra'));
+//app.use(express.session({secret: 'itsPortal'}));
+
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+
+//app.use(express.static(path.join(__dirname, 'public')));
+
 // Authenticator
 //var auth=app.use(express.basicAuth('testUser', 'testPass'));
 

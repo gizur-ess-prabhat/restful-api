@@ -16,6 +16,7 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 var userSchema = new Schema({
+    _id: Number,
     company: String,
     first_name: String,
     last_name: String,

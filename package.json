@@ -15,6 +15,7 @@
         "stylus": "*",
         "express-partials": "0.1.1",
         "mongoose": "3.6.x",
+        "paginate": "0.1.x",
         "async": "0.2.9"
     },
     "engines": {

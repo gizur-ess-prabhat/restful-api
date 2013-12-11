@@ -1,40 +1,14 @@
-
-//------------------------------
-//
-// 2013-12-10, Prabhat Khera <prabhat.khera@gmail.com>
-//
-// Copyright Prabhat Khera
-//
-// Install with dependencies: npm install 
-//
-// Documentation is 'docco style' - http://jashkenas.github.com/docco/
-//
-// Using Google JavaScript Style Guide - http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
-//
-//------------------------------
-
-
-"use strict";
-
-
-// Includes
-// =========
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
 var app = express();
 var fs = require('fs');
-var partials = require('express-partials');
 
 // Config
 var config  = require('./config/config.js').Config;
 
 // some environment variables
 app.set('port', process.env.PORT || 3000);
-app.use(partials());
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
 
 app.use('/api', function(req, res, next) {
     var apikey = req.get('api-key');
@@ -63,15 +37,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 
-//app.use(express.cookieParser('portalPraPra'));
-//app.use(express.session({secret: 'itsPortal'}));
-
 app.use(app.router);
-
-// app.use(express.static(path.join(__dirname, 'public')));
-
-// Authenticator
-// var auth=app.use(express.basicAuth('testUser', 'testPass'));
 
 app.use(function(err, req, res, next) {
     // whatever you want here, feel free to populate

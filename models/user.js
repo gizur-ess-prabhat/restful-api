@@ -44,11 +44,13 @@ userSchema.virtual('name').get(function() {
 
 userSchema.pre('save', function(next) {
     var that = this;
-    mongoose.models.AutoIncrement.findByIdAndUpdate("user_id", { $inc: { next: 1 } }, {new: true, upsert: true, select: {next: 1}}, function(err, data) {
-        if (!err && data)
-            that._id = data.seq + 1;
-        next();
-    });
+    if(!that._id) {
+        mongoose.models.AutoIncrement.findByIdAndUpdate("user_id", { $inc: { seq: 1 } }, {new: true, upsert: true, select: {seq: 1}}, function(err, data) {
+            if (!err && data)
+                that._id = data.seq;
+            next();
+        });
+    }
 });
 
 var User = mongoose.model('User', userSchema);

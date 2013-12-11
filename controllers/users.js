@@ -105,17 +105,16 @@ module.exports.controller = function(app) {
             if (error) {
                 console.log(error);
                 return next(config.error(config.ERRCODE['E1003'], "E1003"));
-            } else {
-                
+            } else {                
                 for(var i in req.body){
                     if (req.body.hasOwnProperty(i))
                         doc[i] = req.body[i];
                 }
-                
                 doc.save();
                 return res.send({'success': true});
             }
         };
+        console.log(req.body._id);
         mongoose.models.User.findOne({'_id': req.body._id}, callback);
     });
     

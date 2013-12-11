@@ -63,7 +63,7 @@ module.exports.controller = function(app) {
     /**
      * Create user
      */ 
-    app.post('/api/users/create', function(req, res, next) {
+    app.post('/api/users', function(req, res, next) {
         // If Request Body is empty
         if (!req.body) {
             return next(config.error(config.ERRCODE.E1003, 'E1003'));
@@ -90,7 +90,7 @@ module.exports.controller = function(app) {
     /**
      * Update User
      */ 
-    app.put('/api/users/update', function(req, res, next) {
+    app.put('/api/users', function(req, res, next) {
         // If Request Body is empty
         if (!req.body) {
             return next(config.error(config.ERRCODE.E1003, 'E1003'));

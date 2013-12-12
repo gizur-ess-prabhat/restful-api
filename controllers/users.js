@@ -97,25 +97,21 @@ module.exports.controller = function(app) {
         }
 
         // If missing required fields
-        if (!req.body._id || !req.body.first_name || !req.body.last_name) {
+        if (!req.body.id || !req.body.first_name || !req.body.last_name) {
             return next(config.error(config.ERRCODE.E1006, 'E1006'));
         }
         
-        var callback = function(error, doc) {
+        var callback = function(error, numberAffected, raw) {
             if (error) {
                 console.log(error);
                 return next(config.error(config.ERRCODE['E1003'], "E1003"));
-            } else {                
-                for(var i in req.body){
-                    if (req.body.hasOwnProperty(i))
-                        doc[i] = req.body[i];
-                }
-                doc.save();
-                return res.send({'success': true});
+            } else { 
+                console.log('The number of updated documents was %d', numberAffected);
+                return res.send({'success': true, 'numberAffected': numberAffected});
             }
         };
-        console.log(req.body._id);
-        mongoose.models.User.findOne({'_id': req.body._id}, callback);
+        var doc = req.body;
+        mongoose.models.User.update({_id: req.body.id}, {$set: doc}, { multi: false },callback);
     });
     
     /**

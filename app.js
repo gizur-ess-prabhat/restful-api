@@ -3,6 +3,11 @@ var http = require('http');
 var path = require('path');
 var app = express();
 var fs = require('fs');
+var cookieParser = require('cookie-parser');
+var morgan = require('morgan')
+var bodyParser = require('body-parser');
+var router = express.Router()
+var methodOverride = require('method-override')
 
 // Config
 var config  = require('./config/config.js').Config;
@@ -32,12 +37,18 @@ app.use('/api', function(req, res, next) {
     next();
 });
 
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
+app.use(morgan('combined'));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+app.use(methodOverride('_method')); // Not Required
+app.use(cookieParser())
 
-app.use(app.router);
+var routes = require('./controllers');
+var models = require('./models');
+
+routes(app);
 
 app.use(function(err, req, res, next) {
     // whatever you want here, feel free to populate
@@ -45,29 +56,13 @@ app.use(function(err, req, res, next) {
     res.send(err.status || 500, {error: err.message});
 });
 
-var apiKeys = ['prabhat', 'khera'];
+var apiKeys = ['sampleKey1', 'sampleKey2'];
 
 // our custom JSON 404 middleware. Since it's placed last
 // it will be the last middleware called, if all others
 // invoke next() and do not respond.
 app.use(function(req, res) {
     res.send(404, {error: "Sorry, can't find it."});
-});
-
-// dynamically include routes (Controller)
-fs.readdirSync('./controllers').forEach(function(file) {
-    if (file.substr(-3) === '.js') {
-        route = require('./controllers/' + file);
-        route.controller(app);
-    }
-});
-
-// dynamically include routes (Models)
-fs.readdirSync('./models').forEach(function(file) {
-    if (file.substr(-3) === '.js') {
-        require('./models/' + file);   
-        route.controller(app);
-    }
 });
 
 http.createServer(app).listen(app.get('port'), function() {

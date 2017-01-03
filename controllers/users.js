@@ -17,7 +17,7 @@
 var mongoose = require('mongoose');
 var config = require('../config/config.js').Config;
 
-module.exports.controller = function(app) {
+module.exports = function(app) {
     
     /**
      * GEt all users
@@ -69,6 +69,8 @@ module.exports.controller = function(app) {
             return next(config.error(config.ERRCODE.E1003, 'E1003'));
         }
 
+        console.log(req.body);
+        
         // If missing required fields
         if (!req.body.first_name || !req.body.last_name) {
             return next(config.error(config.ERRCODE.E1006, 'E1006'));
@@ -95,6 +97,8 @@ module.exports.controller = function(app) {
         if (!req.body) {
             return next(config.error(config.ERRCODE.E1003, 'E1003'));
         }
+
+        console.log(req.body);
 
         // If missing required fields
         if (!req.body.id || !req.body.first_name || !req.body.last_name) {

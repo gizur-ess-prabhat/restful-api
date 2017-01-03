@@ -42,9 +42,13 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
-
 app.use(methodOverride('_method')); // Not Required
 app.use(cookieParser())
+
+var routes = require('./controllers');
+var models = require('./models');
+
+routes(app);
 
 app.use(function(err, req, res, next) {
     // whatever you want here, feel free to populate
@@ -59,22 +63,6 @@ var apiKeys = ['sampleKey1', 'sampleKey2'];
 // invoke next() and do not respond.
 app.use(function(req, res) {
     res.send(404, {error: "Sorry, can't find it."});
-});
-
-// dynamically include routes (Controller)
-fs.readdirSync('./controllers').forEach(function(file) {
-    if (file.substr(-3) === '.js') {
-        route = require('./controllers/' + file);
-        route.controller(app);
-    }
-});
-
-// dynamically include routes (Models)
-fs.readdirSync('./models').forEach(function(file) {
-    if (file.substr(-3) === '.js') {
-        require('./models/' + file);   
-        route.controller(app);
-    }
 });
 
 http.createServer(app).listen(app.get('port'), function() {

@@ -17,7 +17,7 @@
 var mongoose = require('mongoose');
 var config = require('../config/config.js').Config;
 
-module.exports.controller = function(app) {
+module.exports = function(app) {
     
     /**
      * GEt all users

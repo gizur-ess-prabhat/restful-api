@@ -37,7 +37,9 @@ app.use('/api', function(req, res, next) {
     next();
 });
 
-app.use(morgan('combined'));
+app.use(morgan('dev', {
+    skip: function (req, res) { return res.statusCode < 400 }
+}));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -53,7 +55,7 @@ routes(app);
 app.use(function(err, req, res, next) {
     // whatever you want here, feel free to populate
     // properties on `err` to treat it differently in here.
-    res.send(err.status || 500, {error: err.message});
+    res.status(err.status || 500).send({error: err.message});
 });
 
 var apiKeys = ['sampleKey1', 'sampleKey2'];
@@ -62,7 +64,7 @@ var apiKeys = ['sampleKey1', 'sampleKey2'];
 // it will be the last middleware called, if all others
 // invoke next() and do not respond.
 app.use(function(req, res) {
-    res.send(404, {error: "Sorry, can't find it."});
+    res.status(404).send({error: "Sorry, can't find it."});
 });
 
 http.createServer(app).listen(app.get('port'), function() {
